@@ -1,4 +1,5 @@
 ﻿using AppMauiMinhasCompras0.Helpers;
+using System.Globalization;
 
 namespace AppMauiMinhasCompras0
 {
@@ -26,6 +27,8 @@ namespace AppMauiMinhasCompras0
         public App()
         {
             InitializeComponent();
+
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR");
 
             MainPage = new NavigationPage(new Views.ListaProdutos());
         }

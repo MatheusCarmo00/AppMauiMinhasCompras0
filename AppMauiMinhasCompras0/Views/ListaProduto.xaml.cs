@@ -17,7 +17,7 @@ public partial class ListaProdutos : ContentPage
     }
 
 	protected async override void OnAppearing()
-	{ // aquiiiiiiiiiiiiiiiiii
+	{ 
         try
         {
             lista.Clear();
@@ -51,7 +51,9 @@ public partial class ListaProdutos : ContentPage
         {
             string q = e.NewTextValue;
 
-		    lista.Clear();
+            lst_produtos.IsRefreshing = true;
+
+            lista.Clear();
 
             List<Produto> temp = await App.Db.Search(q);
 
@@ -60,6 +62,10 @@ public partial class ListaProdutos : ContentPage
         catch (Exception ex)
         {
             await DisplayAlert("Ops", ex.Message, "OK");
+        }
+        finally
+        {
+            lst_produtos.IsRefreshing = false;
         }
     }
 
@@ -73,7 +79,7 @@ public partial class ListaProdutos : ContentPage
     }
 
     private async void MenuItem_Clicked(object sender, EventArgs e)
-    { // aquiiiiiiiiiiiiiiiiii
+    { 
         try
         {
             MenuItem selecionado = sender as MenuItem;
@@ -95,7 +101,7 @@ public partial class ListaProdutos : ContentPage
     }
 
     private void lst_produtos_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-    { // aquiiiiiiiiiiiiiiiiii
+    { 
         try
         {
             Produto p = e.SelectedItem as Produto;
@@ -109,5 +115,29 @@ public partial class ListaProdutos : ContentPage
         {
             DisplayAlert("Ops", ex.Message, "OK");
         }
+    }
+
+    private async void lst_produtos_Refreshing(EventArgs e)
+    {
+        try
+        {
+            lista.Clear();
+
+            List<Produto> temp = await App.Db.GetAll();
+
+            temp.ForEach(i => lista.Add(i));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ops", ex.Message, "OK");
+        } finally 
+        {
+            lst_produtos.IsRefreshing = false;
+        }
+    }
+
+    private async void ToolbarItem_Clicked_2(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new Views.RelatorioPage());
     }
 }

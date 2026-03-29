@@ -10,7 +10,7 @@ public partial class EditarProduto : ContentPage
 	}
 
     private async void ToolbarItem_Clicked(object sender, EventArgs e)
-    {
+    { 
         try
         {
             Produto produto_anexado = BindingContext as Produto;

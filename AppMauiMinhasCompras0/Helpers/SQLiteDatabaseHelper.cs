@@ -41,6 +41,16 @@ namespace AppMauiMinhasCompras0.Helpers
             string sql = "SELECT * FROM Produto WHERE Descricao LIKE '%" + q + "%'";
 
             return _conn.QueryAsync<Produto>(sql);
-        } 
+        }
+
+        public async Task<List<Produto>> FiltrarPorPeriodo(DateTime inicio, DateTime fim)
+        {
+            var lista = await _conn.Table<Produto>().ToListAsync();
+
+            return lista.Where(p =>
+                p.DataCadastro.Date >= inicio.Date &&
+                p.DataCadastro.Date <= fim.Date
+            ).ToList();
+        }
     }
 }

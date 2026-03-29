@@ -6,7 +6,7 @@ public partial class NovoProduto : ContentPage
 {
 	public NovoProduto()
 	{
-		InitializeComponent();
+        InitializeComponent();
 	}
 
     private async void ToolbarItem_Clicked(object sender, EventArgs e)
@@ -17,13 +17,15 @@ public partial class NovoProduto : ContentPage
 			{
 				Descricao = txt_descricao.Text,
 				Quantidade = Convert.ToDouble(txt_quantidade.Text),
-				Preco = Convert.ToDouble(txt_preco.Text)
-			};
+				Preco = Convert.ToDouble(txt_preco.Text),
+                DataCadastro = dataCompra.Date.Add(DateTime.Now.TimeOfDay)
+            };
 
 			await App.Db.Insert(p);
 			await DisplayAlert("Sucesso!", "Registro Inserido", "OK");
+			await Navigation.PopAsync();
 
-		} catch(Exception ex)
+        } catch(Exception ex)
 		{
 			await DisplayAlert("Ops", ex.Message, "OK");
 		}
